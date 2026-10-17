@@ -3,7 +3,7 @@ import { Card, Statistic } from 'antd'
 import { List, Tag } from 'antd'
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons'
 import { useContext } from 'react'
-import { Spin } from 'antd'
+
 import { CryptoContext } from '../../context/crypto-context.jsx'
 
 const siderStyle = {
@@ -13,12 +13,8 @@ const siderStyle = {
 export default function AppSider() {
   const { loading, crypto, assets } = useContext(CryptoContext)
 
-  if (loading) {
-    return <Spin fullscreen />
-  }
-
   return (
-    <Layout.Sider width="30%" style={siderStyle}>
+    <Layout.Sider width="340" style={siderStyle}>
       {assets.map((asset) => (
         <Card key={asset.id} style={{ marginBottom: '1rem' }}>
           <Statistic

@@ -1,14 +1,48 @@
-import { Layout } from 'antd'
+import { Layout, Select } from 'antd'
+import { useCrypto } from '../../context/crypto-context'
 
 const headerStyle = {
+  width: '100%',
   textAlign: 'center',
-  color: '#fff',
+  padding: '1rem',
   height: 60,
   paddingInline: 48,
-  lineHeight: '64px',
-  backgroundColor: '#4096ff',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  bacgroundColor: 'white',
 }
 
 export default function AppHeader() {
-  return <Layout.Header style={headerStyle}>Header</Layout.Header>
+  const { crypto } = useCrypto()
+
+  function handleSelect(value) {
+    console.log(value)
+  }
+
+  return (
+    <Layout.Header style={headerStyle}>
+      <Select
+        value="Press / to open"
+        defaultValue=""
+        style={{ width: 220 }}
+        onSelect={handleSelect}
+        options={crypto.map((item, index) => {
+          return {
+            value: item.id,
+            label: (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <img
+                  src={item.icon}
+                  alt={item.name}
+                  style={{ width: 20, height: 20 }}
+                />
+                <span>{item.name}</span>
+              </div>
+            ),
+          }
+        })}
+      />
+    </Layout.Header>
+  )
 }
