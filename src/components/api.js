@@ -1,19 +1,17 @@
-import { cryptoAssets, cryptoData } from './data'
+import { cryptoAssets, cryptoData } from '../data'
 
-
-
-export default function fakeFetchCrypto() {
-  return new Promise((reslove) => {
+export function fakeFetchCrypto() {
+  return new Promise((resolve) => {
     setTimeout(() => {
-      reslove(cryptoData)
-    }, 2000)
+      resolve(cryptoData)
+    }, 100)
   })
-} 
+}
 
-export default function fakeFetchAssets() {
-  return new Promise((reslove) => {
+export function fakeFetchAssets() {
+  return new Promise((resolve) => {
     setTimeout(() => {
-      reslove(cryptoAssets)
-    }, 2000)
+      resolve(cryptoAssets)
+    }, 100)
   })
 }
