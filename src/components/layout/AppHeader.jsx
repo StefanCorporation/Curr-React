@@ -1,6 +1,7 @@
-import { Layout, Select } from 'antd'
+import { Layout, Select, Modal, Button } from 'antd'
 import { useCrypto } from '../../context/crypto-context'
-
+import { useEffect, useState } from 'react'
+import CoinModal from './CoinModal'
 const headerStyle = {
   width: '100%',
   textAlign: 'center',
@@ -14,15 +15,31 @@ const headerStyle = {
 }
 
 export default function AppHeader() {
-  const { crypto } = useCrypto()
+  const { crypto, loading } = useCrypto()
+  const [select, setSelect] = useState(false)
+  const [open, setOpen] = useState(false)
+  const [coin, setCoin] = useState(null)
 
-  function handleSelect(value) {
-    console.log(value)
+  useEffect(() => {
+    const keypress = (e) => {
+      if (e.key === '/') {
+        setSelect((prev) => !prev)
+      }
+    }
+
+    document.addEventListener('keypress', keypress)
+  }, [])
+
+  function handleSelect(coinName) {
+    setOpen(true)
+    setCoin(crypto.find((c) => c.id === coinName).id)
   }
 
   return (
     <Layout.Header style={headerStyle}>
       <Select
+        open={select}
+        onOpenChange={setSelect}
         value="Press / to open"
         defaultValue=""
         style={{ width: 220 }}
@@ -43,6 +60,15 @@ export default function AppHeader() {
           }
         })}
       />
+
+      <Modal
+        footer={null}
+        loading={loading}
+        open={open}
+        onCancel={() => setOpen(false)}
+      >
+        <CoinModal coin={coin} />
+      </Modal>
     </Layout.Header>
   )
 }

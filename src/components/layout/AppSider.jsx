@@ -3,7 +3,6 @@ import { Card, Statistic } from 'antd'
 import { List, Tag } from 'antd'
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons'
 import { useContext } from 'react'
-
 import { CryptoContext } from '../../context/crypto-context.jsx'
 
 const siderStyle = {
