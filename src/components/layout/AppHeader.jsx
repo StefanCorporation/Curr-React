@@ -1,7 +1,10 @@
-import { Layout, Select, Modal, Button } from 'antd'
+import { Layout, Select, Modal, Button, Drawer } from 'antd'
 import { useCrypto } from '../../context/crypto-context'
 import { useEffect, useState } from 'react'
 import CoinModal from './CoinModal'
+import AssetForm from './AssetForm'
+import styles from './HeaderFix.module.css'
+
 const headerStyle = {
   width: '100%',
   textAlign: 'center',
@@ -19,6 +22,7 @@ export default function AppHeader() {
   const [select, setSelect] = useState(false)
   const [open, setOpen] = useState(false)
   const [coin, setCoin] = useState(null)
+  const [drawer, setDrawer] = useState(false)
 
   useEffect(() => {
     const keypress = (e) => {
@@ -32,7 +36,11 @@ export default function AppHeader() {
 
   function handleSelect(coinName) {
     setOpen(true)
-    setCoin(crypto.find((c) => c.id === coinName).id)
+    setCoin(crypto.find((c) => c.id === coinName))
+  }
+
+  function showDrawer() {
+    setDrawer(true)
   }
 
   return (
@@ -61,7 +69,12 @@ export default function AppHeader() {
         })}
       />
 
+      <Button type="primary" onClick={showDrawer}>
+        Add Asset
+      </Button>
+
       <Modal
+        className={styles.modalCoin}
         footer={null}
         loading={loading}
         open={open}
@@ -69,6 +82,16 @@ export default function AppHeader() {
       >
         <CoinModal coin={coin} />
       </Modal>
+
+      <Drawer
+        style={600}
+        title="Basic Drawer"
+        closable={{ 'aria-label': 'Close Button' }}
+        onClose={() => setDrawer(false)}
+        open={drawer}
+      >
+        <AssetForm></AssetForm>
+      </Drawer>
     </Layout.Header>
   )
 }
